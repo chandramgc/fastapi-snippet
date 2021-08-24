@@ -8,13 +8,10 @@ from starlette.config import Config
 from starlette.datastructures import CommaSeparatedStrings, Secret
 from src.core.logging import InterceptHandler
 
-API_PREFIX = ""
-
 JWT_TOKEN_PREFIX = "Token"  # noqa: S105
 VERSION = "0.0.0"
-API_VERSION = "v1"
 
-config = Config("src/resource/dev.env")
+config = Config("src/resource/dev_mongo.env")
 
 # Project confiugration
 
@@ -46,7 +43,7 @@ logger.configure(handlers=[{"sink": sys.stderr, "level": LOGGING_LEVEL}])
 
 # Database configuration
 
-DATABASE_DRIVER = config("DATABASE_DRIVER", default="/api")
+DATABASE_DRIVER = config("DATABASE_DRIVER")
 DATABASE_USERNAME = config("DATABASE_USERNAME")
 DATABASE_PASSWORD_HASH = config("DATABASE_PASSWORD_HASH")
 DATABASE_HOST = config("DATABASE_HOST")
