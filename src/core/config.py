@@ -1,12 +1,13 @@
+import configparser
 import logging
 import sys
-import configparser
 from typing import List
-from loguru import logger
+
 from databases import DatabaseURL
+from loguru import logger
+from src.core.logging import InterceptHandler
 from starlette.config import Config
 from starlette.datastructures import CommaSeparatedStrings, Secret
-from src.core.logging import InterceptHandler
 
 JWT_TOKEN_PREFIX = "Token"  # noqa: S105
 VERSION = "0.0.0"
@@ -16,8 +17,9 @@ config = Config("src/resource/dev_mongo.env")
 # Project confiugration
 
 DEBUG: bool = config("DEBUG", cast=bool, default=False)
-SECRET_KEY: Secret = config("SECRET_KEY", cast=Secret ,default="secret")
-PROJECT_NAME: str = config("PROJECT_NAME", default="FastAPI example application")
+SECRET_KEY: Secret = config("SECRET_KEY", cast=Secret, default="secret")
+PROJECT_NAME: str = config(
+    "PROJECT_NAME", default="FastAPI example application")
 ALLOWED_HOSTS: List[str] = config(
     "ALLOWED_HOSTS",
     cast=CommaSeparatedStrings,
@@ -48,10 +50,15 @@ DATABASE_USERNAME = config("DATABASE_USERNAME")
 DATABASE_PASSWORD_HASH = config("DATABASE_PASSWORD_HASH")
 DATABASE_HOST = config("DATABASE_HOST")
 DATABASE_DB_NAME = config("DATABASE_DB_NAME")
-DATABASE_ADDITIONAL_STRING= config("DATABASE_ADDITIONAL_STRING")
-DATABASE_URL: DatabaseURL = DATABASE_DRIVER + "://" +  DATABASE_USERNAME + ":" + DATABASE_PASSWORD_HASH + "@" + DATABASE_HOST + "/" + DATABASE_DB_NAME + DATABASE_ADDITIONAL_STRING
-MAX_CONNECTIONS_COUNT: int = config("MAX_CONNECTIONS_COUNT", cast=int, default=10)
-MIN_CONNECTIONS_COUNT: int = config("MIN_CONNECTIONS_COUNT", cast=int, default=10)
+DATABASE_ADDITIONAL_STRING = config("DATABASE_ADDITIONAL_STRING")
+DATABASE_URL: DatabaseURL = DATABASE_DRIVER + "://" + DATABASE_USERNAME + ":" + \
+    DATABASE_PASSWORD_HASH + "@" + DATABASE_HOST + "/" + \
+    DATABASE_DB_NAME + DATABASE_ADDITIONAL_STRING
+MAX_CONNECTIONS_COUNT: int = config(
+    "MAX_CONNECTIONS_COUNT", cast=int, default=10)
+MIN_CONNECTIONS_COUNT: int = config(
+    "MIN_CONNECTIONS_COUNT", cast=int, default=10)
+
 
 def get_properties():
     config_properties = configparser.RawConfigParser()
