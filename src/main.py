@@ -13,9 +13,6 @@ from src.api.routes.api import router as api_router
 from src.api.errors.http_error import http_error_handler
 from src.api.errors.validation_error import http422_error_handler
 from src.core.config import ALLOWED_HOSTS, API_PREFIX, DEBUG, PROJECT_NAME, VERSION
-import argparse
-import traceback
-import configparser
 
 def get_application() -> FastAPI:
     application = FastAPI(title=PROJECT_NAME, debug=DEBUG, version=VERSION)
