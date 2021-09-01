@@ -1,34 +1,37 @@
+import configparser
 import logging
 import sys
 from typing import List
 
-
+from databases import DatabaseURL
 from loguru import logger
+from src.core.logging import InterceptHandler
 from starlette.config import Config
 from starlette.datastructures import CommaSeparatedStrings, Secret
 
-from src.core.logging import InterceptHandler
-
-API_PREFIX = "/api"
-
 JWT_TOKEN_PREFIX = "Token"  # noqa: S105
 VERSION = "0.0.0"
-API_VERSION = "v1.0"
 
-config = Config(".env")
+config = Config("src/resource/dev.env")
+
+# Project confiugration
 
 DEBUG: bool = config("DEBUG", cast=bool, default=False)
-
-SECRET_KEY: Secret = config("SECRET_KEY", cast=Secret ,default="secret")
-
-PROJECT_NAME: str = config("PROJECT_NAME", default="FastAPI example application")
+SECRET_KEY: Secret = config("SECRET_KEY", cast=Secret, default="secret")
+PROJECT_NAME: str = config(
+    "PROJECT_NAME", default="FastAPI example application")
 ALLOWED_HOSTS: List[str] = config(
     "ALLOWED_HOSTS",
     cast=CommaSeparatedStrings,
     default="",
 )
 
-# logging configuration
+# API configuration
+
+API_PREFIX = config("API_PREFIX", default="/api")
+API_VERSION = config("API_VERSION", default="v0")
+
+# Logging configuration
 
 LOGGING_LEVEL = logging.DEBUG if DEBUG else logging.INFO
 LOGGERS = ("uvicorn.asgi", "uvicorn.access")
