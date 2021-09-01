@@ -13,6 +13,7 @@ pip3 freeze > requirements.txt
 ## Creating the virtual environment
 sudo apt install -y python3-virtualenv
 virtualenv venv
+pip uninstall virtualenv
 
 ## Activating virtualenv on Linux Ubuntu /macOS
 source venv/bin/activate
